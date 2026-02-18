@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/
+.coverage
+
+# Virtual env
+.venv/
+venv/
+
+# Local runtime artifacts
+*.db
+*.sqlite
+*.sqlite3
+
+# OS files
+.DS_Store
