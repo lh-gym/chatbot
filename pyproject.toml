@@ -18,6 +18,7 @@ dependencies = [
   "fastapi>=0.115.0",
   "uvicorn>=0.30.0",
   "numpy>=1.26.0",
+  "pypdf>=4.3.1",
 ]
 
 [project.optional-dependencies]
@@ -55,5 +56,6 @@ module = [
   "langchain_core.*",
   "langchain_community.*",
   "langchain_openai.*",
+  "pypdf.*",
 ]
 ignore_missing_imports = true

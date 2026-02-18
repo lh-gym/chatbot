@@ -75,12 +75,43 @@ class JsonParser(Parser):
         return ParsedDocument(doc_id=doc_id or path.stem, text=text, metadata=metadata)
 
 
+class PdfParser(Parser):
+    """Parser for PDF documents using `pypdf` text extraction."""
+
+    extensions = (".pdf",)
+
+    def parse(self, path: Path, *, doc_id: str | None = None) -> ParsedDocument:
+        try:
+            from pypdf import PdfReader
+        except Exception as exc:
+            raise RuntimeError(
+                "PDF parsing requires pypdf. Install with `pip install pypdf`."
+            ) from exc
+
+        reader = PdfReader(str(path))
+        pages: list[str] = []
+        for page in reader.pages:
+            page_text = page.extract_text() or ""
+            pages.append(page_text.strip())
+        text = "\n\n".join(part for part in pages if part)
+
+        return ParsedDocument(
+            doc_id=doc_id or path.stem,
+            text=text,
+            metadata={
+                "source": str(path),
+                "format": "pdf",
+                "pages": len(reader.pages),
+            },
+        )
+
+
 class ParserRegistry:
     """Maps file extension to parser implementation."""
 
     def __init__(self, parsers: list[Parser] | None = None) -> None:
         self._parsers: dict[str, Parser] = {}
-        for parser in parsers or [TextParser(), MarkdownParser(), JsonParser()]:
+        for parser in parsers or [TextParser(), MarkdownParser(), JsonParser(), PdfParser()]:
             self.register(parser)
 
     def register(self, parser: Parser) -> None:

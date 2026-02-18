@@ -3,6 +3,7 @@
 A production-oriented RAG agent scaffold with:
 
 - Semantic + sliding-window chunking (500-1200 token chunks)
+- Multi-format parsing (`txt`, `md`, `json`, `pdf`)
 - Dual-route retrieval (metadata + semantic) with fusion (normalize + rerank + RRF)
 - LangChain tool-calling agent with a Pydantic tool registry
 - FastAPI interface with trace and source visibility
